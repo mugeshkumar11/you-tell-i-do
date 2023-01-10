@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Signup from "../Signup/Signup";
 import "./log.css";
 
@@ -8,31 +8,64 @@ const Log = () => {
   const [userpassword, setuserpassword] = useState("");
   const [select, setselect] = useState("");
   const [localdata, setlocaldata] = useState([]);
+  const[error, seterror] = useState("")
+  const Navigate = useNavigate();
 
   const handleusername = (eve) => {
     setusername(eve.target.value);
-    console.log("user1", username);
+   
   };
   const handleuserpassword = (eve) => {
     setuserpassword(eve.target.value);
-    console.log("user2", userpassword);
+  
   };
   const handleradio=(eve)=>{
     setselect(eve.target.value)
-    console.log("radio",select);
+   
   }
 useEffect(()=>{
   const localStorageData = JSON.parse(localStorage.getItem("formvalue"))
-  console.log(localStorageData,'local')
   setlocaldata(localStorageData);
 },[])
 
 console.log("set",localdata)
-//  const temp = localStorage.getItem(JSON.parse("loggedUser"))
-//  console.log("temp", localStorageData);
-  const handlesubmit = () => {
 
-  };
+  const handlesubmit = () => {
+    console.log('hi');
+    console.log(username,userpassword,select,"data");
+    if(username===""&&userpassword===""&&select===""){
+       alert("enter the datas")
+       return;
+    }else if (select==="master"){
+      let tempuser=localdata.master.find((item)=>{
+       if(username===item.name1){
+        return item;
+       }
+      })
+      if(tempuser.password1===userpassword){
+        return(
+          Navigate("/Home")
+        )
+      }else{
+        alert("error password and username")
+      }
+    }else if (select==="student"){
+      let tempuser=localdata.student.find((item)=>{
+        if(username===item.name1){
+         return item;
+        }
+       })
+       if(tempuser.password1===userpassword){
+        return(
+          Navigate("/Home")
+        )
+      }else{
+        alert("error password and username")
+      }
+    }else{
+      alert("error username and userpassword")
+    }
+}
   
   return (
     <div className="loginpage">
@@ -75,6 +108,7 @@ console.log("set",localdata)
           </div>
         </div>
       </section>
+      <h3>{error}</h3>
     </div>
   );
 };

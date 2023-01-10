@@ -2,25 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const [user, setUser] = useState({ select: "", name1: "", password1: "" });
-  const [formvalue, setformvalue] = useState([]);
+  const [formvalue, setformvalue] = useState({master:[],student:[]});
   const [error, seterror] = useState("");
   const Navigate = useNavigate();
-  const [select, setselect] = useState("");
-  console.log(user, "user");
 
-  // const handlename= (eve) =>{
-  //   setName(eve.target.value)
-  //   console.log("data",name);
-  // }
+  console.log(formvalue);
 
-  // const handlepassword= (eve) =>{
-  //   setPassword(eve.target.value)
-  //   console.log("data",password);
-  // }
+
   const handlesignup = (e) => {
     alert("hi");
     e.preventDefault();
-    // localStorage.clear()
+   
     if (user.name1 === "" && user.password1 === "") {
       seterror("fill the input box");
       return;
@@ -30,42 +22,54 @@ const Signup = () => {
     } else if (user.name1 === user.name1 && user.password1 === "") {
       seterror("enter the password");
       return;
-    } else {
-      // setUser({[name]:name,[password]:password,[select]:select})
-      setformvalue([...formvalue, user]);
+    }else if(user.select==="master"){
 
-      console.log("data2", user);
+      let temCopy = formvalue
 
-      // Navigate("/")
+      temCopy.master = [...temCopy.master, user]
 
-      // localStorage.setItem("loggedUser",user);
+      setformvalue(temCopy);
+      
+    }else if(user.select==="student"){
+      let temCopy = formvalue
+
+      temCopy.student = [...temCopy.student, user]
+
+      setformvalue(temCopy);
+
     }
+     else {
+      
+    }
+    submit()
+    Navigate("/")
   };
-  useEffect(() => {
-    localStorage.setItem("formvalue", JSON.stringify([...formvalue]));
-  }, [formvalue]);
-  //  const handleradio =(eve)=>{
-  //   setselect(eve.target.value)
-  //   console.log("radio",select);
-  //  }
+
+  let submit = ()=>{
+  localStorage.setItem("formvalue", JSON.stringify({...formvalue}));
+  console.log('sub');
+
+  }
+ 
+
   return (
     <div className="loginpage">
       <section className="container">
         <div className="loginflex">
           <h3>Register page</h3>
-          <div className="logincontent">
+          <div className="logincontent" onChange={(e)=>setUser({...user,select:e.target.value})}>
             <input
               type="radio"
-              name="select"
+              name="user"
               value="master"
-              checked={select == "master"}
+              checked={user == "master"}
             />
             <label>Master</label>
             <input
               type="radio"
-              name="select"
+              name="user"
               value="student"
-              checked={select == "student"}
+              checked={user == "student"}
             />
             <label>student</label>
           </div>
