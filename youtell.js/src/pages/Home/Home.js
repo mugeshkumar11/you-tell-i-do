@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState ,useEffect} from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import './home.css';
 const Home = () => {
   const[func, setfunc] = useState("")
+  const[func1, setfunc1] = useState("")
+  const[func2, setfunc2] = useState("")
+  const[func3, setfunc3] = useState("")
+  const navigate = useNavigate();
+  const logout=()=>{
+    localStorage.removeItem("formvalue")
+    navigate("/")
+  }
 
-  const handleclick=(eve)=>{
-    
     function makeNum(num, func) {
       if (func === undefined) {
         return num;
@@ -52,42 +58,44 @@ const Home = () => {
     function dividedBy(right) {
       return function(left) { return left / right; };
     }
+   
+
     
-    console.log(eight(minus(three()))); // return 5
+const handleclick=()=>{
+setfunc(eight(minus(three())));
+}
+  
+ 
 
-    console.log(six(dividedBy(two()))); // return 3
-
-    console.log(seven(times(five()))); // return 35
-
-    console.log(four(plus(nine()))); // must return 13
-  }
  
   return (
     <div className="header">
       <section className="contain">
           <h2>Home page</h2>
           <div className="headercredent">
-            <Link to={"/"}>
-              <button>Log out</button>
-            </Link>
+              <button onClick={logout}>Log out</button>
           </div>
       </section>
       <section className='button'>
+        <h3>eight(minus(three()))</h3>
         <button onClick={()=>handleclick()}>calculate</button>
       </section>
-      {/* <section className='button'>
+      <p>{func}</p>
+      <section className='button'>
         <h3> six(dividedBy(two()))</h3>
-        <button onClick={handleclick}>calculate</button>
+        <button onClick={()=>setfunc1(six(dividedBy(two())))}>calculate</button>
       </section>
+      <p>{func1}</p>
       <section className='button'>
         <h3> seven(times(five()))</h3>
-        <button onClick={handleclick}>calculate</button>
+        <button onClick={()=>setfunc2(seven(times(five())))}>calculate</button>
       </section>
+      <p>{func2}</p>
       <section className='button'>
         <h3>four(plus(nine()))</h3>
-        <button onClick={handleclick}>calculate</button>
-      </section> */}
-      <h3>{}</h3>
+        <button onClick={()=>setfunc3(four(plus(nine())))}>calculate</button>
+      </section>
+      <p>{func3}</p>
     </div>
   )
 }
