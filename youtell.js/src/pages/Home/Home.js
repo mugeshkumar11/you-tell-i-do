@@ -7,8 +7,8 @@ const Home = () => {
   const[func2, setfunc2] = useState("")
   const[func3, setfunc3] = useState("")
   const navigate = useNavigate();
+  
   const logout=()=>{
-    localStorage.removeItem("formvalue")
     navigate("/")
   }
 
